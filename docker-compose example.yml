@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: Sua senha
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./src/db:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./src/backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/backend:/usr/src/app
+
+  frontend:
+    build:
+      context: ./src/frontend
+    container_name: frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src/frontend:/usr/src/app
+    depends_on:
+      - backend
